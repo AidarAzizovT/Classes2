@@ -30,7 +30,7 @@ timer.start(100)
 
 
 
-
+print('hi')
 window.show()
 app.exec()
 
