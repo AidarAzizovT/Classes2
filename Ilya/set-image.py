@@ -14,7 +14,7 @@ input = QLineEdit(window)
 button = QPushButton(window)
 button.setGeometry(200, 200, 400, 400)
 button.setStyleSheet('''
-    background-image: url(rsz_equal-sign.jpg);
+    background-image: url(rsz_equal-sign.jp*g);
 ''')
 
 window.show()

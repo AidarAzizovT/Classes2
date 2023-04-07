@@ -8,7 +8,7 @@ class Window(QWidget):
         QWidget.__init__(self, *args, **kwargs)
 
         self.label = QLabel("Try Ctrl+O", self)
-        self.shortcut = QShortcut(QKeySequence("Ctrl+O"), self)
+        self.shortcut = QShortcut(QKeySequence("K_return"), self)
         self.shortcut.activated.connect(self.on_open)
 
         self.layout = QHBoxLayout()
@@ -18,7 +18,7 @@ class Window(QWidget):
         self.resize(150, 100)
         self.show()
 
-    @pyqtSlot()
+
     def on_open(self):
         print("Opening!")
 

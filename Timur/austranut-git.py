@@ -3,9 +3,9 @@ import sys
 
 
 pygame.init()
-#pygame.mixer.init()
+pygame.mixer.init()
 pygame.mixer.music.load('After Dark.mp3')
-#pygame.mixer.music.play()
+pygame.mixer.music.play()
 boom = pygame.mixer.Sound('boom.mp3')
 
 myfont = pygame.font.SysFont("monospace", 55)
@@ -32,8 +32,8 @@ move_right = False
 
 x_austr = 300
 y_austr = 300
-dx = 2
-dy = 2
+dx = 0
+dy = 0
 rect_for_station = pygame.Rect(250, 350, 70, 70)
 rect_for_end = pygame.Rect(0, 0, 1000, 1000)
 
@@ -46,6 +46,7 @@ while run:
     pygame.draw.rect(mw, (240, 10, 10), health_box)
     mw.blit(meteo, (0, 0))
     if pygame.mouse.get_pressed()[0] and health_box.collidepoint(pygame.mouse.get_pos()):
+        print(pygame.mouse.get_pressed())
         boom.play()
         #run = False
     for event in pygame.event.get():
@@ -55,34 +56,40 @@ while run:
             if event.key == pygame.K_SPACE and rect_for_austronaut.colliderect(rect_for_station):
                 achived_station = True
             if event.key == pygame.K_UP:
-                move_up = True
+                dy = -3
             if event.key == pygame.K_DOWN:
-                move_down = True
+                dy = 3
             if event.key == pygame.K_LEFT:
-                move_left = True
+                dx = -3
             if event.key == pygame.K_RIGHT:
-                move_right = True
+                dx = 3
 
+            if event.key == pygame.K_SPACE:
+                if rect_for_austronaut.colliderect(rect_for_station):
+                    run = False
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
-                move_up = False
+                dy = 0
             if event.key == pygame.K_DOWN:
-                move_down = False
+                dy = 0
             if event.key == pygame.K_LEFT:
-                move_left = False
+                dx = 0
             if event.key == pygame.K_RIGHT:
-                move_right = False
+                dx = 0
+        if event.type == pygame.FINGERUP:
+            print("Finger lifted at", event.x, event.y)
+    y_austr += dy
+    x_austr += dx
+    if rect_for_austronaut.colliderect(rect_for_station):
+        if dy > 0:
+            y_austr -= 10
+        elif dy < 0:
+            y_austr += 10
+            
 
 
 
-    if move_up == True:
-        y_austr += -dy
-    if move_down == True:
-        y_austr += dy
-    if move_left == True:
-        x_austr += -dx
-    if move_right == True:
-        x_austr += dx
+
 
     if rect_for_austronaut.colliderect(health_box):
         boom.play()
@@ -90,22 +97,23 @@ while run:
         s.set_alpha(30)  # alpha level
         s.fill((230, 50, 50))  # this fills the entire surface
         mw.blit(s, (0, 0))
+    pygame.draw.rect(mw, BLACK, rect_for_austronaut)
+    mw.blit(austronaut, (x_austr - 70, y_austr - 70))
 
-    if not achived_station:
-        pygame.draw.rect(mw, BLACK, rect_for_austronaut)
-        mw.blit(austronaut, (x_austr - 70, y_austr - 70))
-    else:
-        s = pygame.Surface((2000, 2000))  # the size of your rect
-        s.set_alpha(counter)  # alpha level
-        s.fill((128, 128, 170))  # this fills the entire surface
-        mw.blit(s, (0, 0))
-        if counter >= 128:
-            mw.blit(text, (200, 400))
-            if counter_for_text >= 90:
-                text = myfont.render('Press enter to continue', True, (10, 10, 10))
-            counter_for_text += 1
-        else:
-            counter += 1
 
+
+    clock.tick(40)
+    pygame.display.update()
+
+
+
+run = True
+back = pygame.transform.scale(pygame.image.load("space-station.jpg"), (2000, 2000))
+
+while run:
+    mw.blit(back, (0, 0))
+
+    pygame.draw.rect(mw, BLACK, rect_for_austronaut)
+    mw.blit(austronaut, (x_austr - 70, y_austr - 70))
     clock.tick(40)
     pygame.display.update()
