@@ -76,8 +76,7 @@ while run:
                 dx = 0
             if event.key == pygame.K_RIGHT:
                 dx = 0
-        if event.type == pygame.FINGERUP:
-            print("Finger lifted at", event.x, event.y)
+
     y_austr += dy
     x_austr += dx
     if rect_for_austronaut.colliderect(rect_for_station):
@@ -99,12 +98,8 @@ while run:
         mw.blit(s, (0, 0))
     pygame.draw.rect(mw, BLACK, rect_for_austronaut)
     mw.blit(austronaut, (x_austr - 70, y_austr - 70))
-
-
-
     clock.tick(40)
     pygame.display.update()
-
 
 
 run = True
@@ -113,7 +108,38 @@ back = pygame.transform.scale(pygame.image.load("space-station.jpg"), (2000, 200
 while run:
     mw.blit(back, (0, 0))
 
+
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            run = False
+        if event.type == pygame.KEYDOWN:
+
+            if event.key == pygame.K_UP:
+                y_austr -= 40
+                dy = 1
+            if event.key == pygame.K_LEFT:
+                dx = -3
+            if event.key == pygame.K_RIGHT:
+                dx = 3
+
+        if event.type == pygame.KEYUP:
+
+            if event.key == pygame.K_LEFT:
+                dx = 0
+            if event.key == pygame.K_RIGHT:
+                dx = 0
+    if y_austr < 400:
+        y_austr += dy
+        if dy < 5:
+            dy += 0.3
+    x_austr += dx
+
+
+    rect_for_austronaut = pygame.Rect(x_austr, y_austr, 25, 25)
     pygame.draw.rect(mw, BLACK, rect_for_austronaut)
     mw.blit(austronaut, (x_austr - 70, y_austr - 70))
+
     clock.tick(40)
     pygame.display.update()
+

@@ -16,7 +16,7 @@ label.move(10, 100)
 label.setFont(QFont('Arial', 14))
 
 combobox = QComboBox()
-combobox.addItems([])
+combobox.addItems(MATERIALS)
 combobox.setParent(window)
 combobox.setGeometry(200, 200, 200, 50)
 
