@@ -24,6 +24,10 @@ def get_weather_now(longitude, latitude):
 
 
 
+print(get_weather_now(0, 0))
+
+
+
 
 
 
